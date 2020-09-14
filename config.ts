@@ -28,11 +28,11 @@ export function loadConfig(filepath): TE.TaskEither<Error, Config> {
     const readConfigFile: TE.TaskEither<Error, string> = 
             TE.tryCatch(() => fs.readFile(filepath, { encoding: "utf-8"}), E.toError );
     
-    const parseConfigJson = (content:string):E.Either<Error, E.Json> => {
+    const parseConfigJson = (content:string): E.Either<Error, E.Json> => {
         return E.parseJSON(content, E.toError);
     }
 
-    const validateConfig = (json:E.Json):E.Either<Error, Config> => {
+    const validateConfig = (json:E.Json):  E.Either<Error, Config> => {
         return pipe(
             TConfig.decode(json),
             E.mapLeft( errors => new Error(failure(errors).join(", ")))
